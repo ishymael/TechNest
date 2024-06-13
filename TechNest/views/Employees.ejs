@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- General meta tags -->
+    <meta charset="utf-8">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Site specific tags -->
+    <title>TechNest | <%= title %></title>
+    <!-- Style sheets -->
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.cdnfonts.com/css/cascadia-code" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <div id="header-logo">
+            <a href="index">
+                <img id="site-logo" src="./images/logo.png" alt="TechNest Logo" width="150" height="50"> 
+            </a>
+        </div>
+        <div id="header-logo">
+            <a href="index">
+                <h1>TechNest Solutions</h1>
+            </a>
+            
+        </div>
+        <nav>
+            <ul>
+                <li><a href='index'>Home Page</a></li>
+                <li><a href='about'>About Us</a></li>
+                <li><a href="employees">Departments</a></li>
+                <li><a href="contact">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="about-us">
+       
+        
+
+        <form class="search-form" method="get" action="/employees">
+            <label for="search">Search:</label>
+            <input type="text" id="search" name="search" placeholder="Search" required class="search">
+            <input type="submit" value="Search" class="btn">
+            <button class="add-emp"><a href='addemp'>Add Employee</a></button>
+        </form>
+
+       
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <div class="sub-header">
+                        <h1>Our Employees</h1>
+                    </div>
+                </tr>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>ID/Iqama Number</th>
+                    <th>Department</th>
+                    <th>Location</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if(employees.length > 0) { %>
+                    <% employees.forEach(employee => { %>
+                    <tr class="clickable-row" data-href="employees/<%= employee._id %>">
+                        <td><%= employee.fname %></td>
+                        <td><%= employee.lname %></td>
+                        <td><%= employee.employeeid %></td>
+                        <td><%= employee.department %></td>
+                        <td><%= employee.location %></td>
+                        <td><button class="delete-button" data-id="<%= employee._id %>">Delete</button></td>
+                    </tr>
+                    <% }) %>
+                <% } %>
+            </tbody>
+            <tfoot></tfoot>
+        </table>
+    </main>
+
+    <footer>
+        <div class="section">
+            <p>Ready to take your business to the next level with innovative software solutions?
+                Contact us <a href="/Contact"><span class="here"><i>here</i></span></a>.
+            </p>
+        </div>
+        <div class="contact-info">
+            <p>Follow us on</p>
+            <a href=""><img class="fblogo" src="./images/fblogo.png"></a>
+            <a href=""><img class="xlogo2" src="./images/xlogo2.png"></a>
+            <a href=""><img class="iglogo" src="./images/iglogo.png"></a>
+        </div>
+        <hr>
+        <p>&copy; 2024 TechNest Solutions</p>
+        <p>Riyadh | London | Abu Dhabi</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const rows = document.querySelectorAll('.clickable-row');
+            rows.forEach(row => {
+                row.addEventListener('click', () => {
+                    window.location.href = row.dataset.href;
+                });
+            });
+
+            const deleteButtons = document.querySelectorAll('.delete-button');
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Prevent the row click event from firing
+                    const id = e.target.dataset.id;
+                    const endpoint = `/employees/${id}`;
+
+                    fetch(endpoint, {
+                        method: 'DELETE',
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        window.location.href = data.redirect;
+                    })
+                    .catch(err => console.log(err));
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

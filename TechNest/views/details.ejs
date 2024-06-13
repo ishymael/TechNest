@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/reset.css">
+  <link href="https://fonts.cdnfonts.com/css/cascadia-code" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div id="header-logo">
+        <a href="index">
+            <img id="site-logo" src="/images/logo.png" alt="TechNest Logo" width="150" height="50"> 
+        </a>
+    </div>
+    <div id="header-logo">
+        <a href="index">
+            <h1>TechNest Solutions</h1>
+        </a>
+        
+    </div>
+   
+  </header>
+
+  <main class="emp-details">
+  <div id="details-container">
+    <h2><%= emp.fname%> <%= emp.lname %>'s Details</h2>
+    <div class="details">
+      
+      <p><b>First Name: </b><i><%= emp.fname %></i></p>
+      <p><b>Last Name: </b><i><%= emp.lname %></i></p>
+      <p><b>Employee ID: </b><i><%= emp.employeeid %></i></p>
+      <p><b>Department: </b><i><%= emp.department %></i></p>
+      <p><b>Location: </b><i><%= emp.location %></i></p>
+      
+    </div>
+    
+    <a class="delete" data-doc="<%= emp._id %>">Delete</a>
+   
+    
+  </div>
+ 
+
+  </main>
+
+  <script>
+    const trashcan = document.querySelector('a.delete');
+    trashcan.addEventListener('click', (e)=>{
+        const endpoint = '/employees/' + trashcan.dataset.doc; // Use concatenation to construct the endpoint URL
+
+        fetch(endpoint, {
+            method: 'DELETE'
+        })
+        .then((response)=>response.json())
+        .then((data)=> {
+          console.log(data)
+          window.location = data.redirect; 
+        })
+        .catch(err=>console.log(err));
+    })
+</script>
+
+</body>
+</html>

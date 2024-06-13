@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- General meta tags -->
+    <meta charset="utf-8">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Site specific tags -->
+    <title>TechNest</title>
+    <!-- Style sheets -->
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.cdnfonts.com/css/cascadia-code" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <div id="header-logo">
+            <a href="index">
+                <img id="site-logo" src="./images/logo.png" alt="TechNest Logo" width="150" height="50"> 
+            </a>
+        </div>
+        <div id="header-logo">
+            <a href="index">
+                <h1>TechNest Solutions</h1>
+            </a>
+            
+        </div>
+        <nav>
+            <ul>
+                <li><a href='index'> Home Page </a></li>
+                <li><a href='about'> About Us </a></li>
+                <li><a href="employees"> Departments </a></li>
+                <li><a href="contact"> Contact Us </a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="about-us">
+        <div class="sub-header">
+            <h1>Add Employee</h1>
+        </div>
+        <div class="add-department">
+            <form action="/employees" method="POST" onsubmit="return validateForm()">
+                <br>
+                <label for="fname">First Name:</label>
+                <input type="text" id="fname" name="fname" required minlength="2">
+                <br>
+
+                <label for="lname">Last Name:</label>
+                <input type="text" id="lname" name="lname" required minlength="2">
+                <br>
+
+                <label for="idType">ID:</label>
+                <select id="idType" name="idType" required onchange="updatePattern()">
+                    <option value="">Select ID Type</option>
+                    <option value="iqama">Iqama</option>
+                    <option value="id">ID</option>
+                </select>
+                <br>
+
+                <label for="employeeid">ID/Iqama Number:</label>
+                <input type="text" id="employeeid" name="employeeid" required maxlength="10">
+                <br>
+
+                <label for="department">Department:</label>
+                <select id="department" name="department" required>
+                    <option>Select Department</option>
+                    <option>Engineering Department</option>
+                    <option>Product Development Department</option>
+                    <option>Quality Assurance (QA) Department</option>
+                    <option>Research and Development (R&D) Department</option>
+                    <option>IT Operations Department</option>
+                    <option>Customer Support Department</option>
+                    <option>Sales and Marketing Department</option>
+                    <option>Human Resources (HR) Department</option>
+                    <option>Finance and Accounting Department</option>
+                    <option>Legal and Compliance Department</option>
+                </select>
+                <br>
+
+                <label for="location">Location:</label>
+                <select id="location" name="location" required>
+                    <option value="" data-display-text="">Select Location</option>
+                    <option>Riyadh</option>
+                    <option>Jeddah</option>
+                    <option>Khobar</option>
+                    <option>Hail</option>
+                </select>
+                <br>
+
+                <label for="manager-name">Manager:</label>
+                <input type="text" id="manager-name" name="manager-name" required minlength="2">
+                <br>
+
+                <input class="add-emp" type="submit" value="Add Employee">
+                <br>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <div class="section">
+            <p>Ready to take your business to the next level with innovative software solutions? Contact us <a href="/Contact"><span class="here"><i>here</i></span></a>.</p>
+        </div>
+        <div class="contact-info">
+            <p>Follow us on</p>
+            <a href=""><img class="fblogo" src="./images/fblogo.png"></a>
+            <a href=""><img class="xlogo2" src="./images/xlogo2.png"></a>
+            <a href=""><img class="iglogo" src="./images/iglogo.png"></a>
+        </div>
+        <hr>
+        <p>&copy; 2024 TechNest Solutions</p>
+        <p>Riyadh | London | Abu Dhabi</p>
+    </footer>
+
+    <script>
+        function updatePattern() {
+            var idType = document.getElementById("idType").value;
+            var employeeIdInput = document.getElementById("employeeid");
+
+            if (idType === "iqama") {
+                employeeIdInput.pattern = "22\\d{8}";
+                employeeIdInput.placeholder = "Begins with 22";
+            } else if (idType === "id") {
+                employeeIdInput.pattern = "11\\d{8}";
+                employeeIdInput.placeholder = "Begins with 11";
+            } else {
+                employeeIdInput.pattern = "";
+                employeeIdInput.placeholder = "";
+            }
+        }
+
+        function validateForm() {
+            var employeeId = document.getElementById("employeeid").value;
+            var pattern = new RegExp(document.getElementById("employeeid").pattern);
+            if (!pattern.test(employeeId)) {
+                alert("ID/Iqama Number is not valid");
+                return false;
+            }
+            return true;
+        }
+    </script>
+</body>
+
+</html>
